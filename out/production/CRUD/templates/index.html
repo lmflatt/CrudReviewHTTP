@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sandwich Directory</title>
+</head>
+<body>
+
+<header>
+    <p>Sandwiches</p><br/><br/>
+    {{statement}}<br/>
+    {{^user}}
+        <form action="/login" method="post">
+            Please enter your name and password.&nbsp;<input type="text" placeholder="name" name="name" />&nbsp;<input type="text" placeholder="password" name="password" /><br/>
+            <button type="submit">Login</button>
+        </form>
+    {{/user}}
+    {{#user}}
+        <form action="/new-sandwich" method="post">
+            Please enter the name of a new Sandwich:&nbsp;<input type="text" name="newSandwich" placeholder="e.g. turkey..." /><br/>
+            <button type="submit">Add</button>
+        </form><br/>
+        <form action="/logout" method="post">
+            <button type="submit">Logout</button>
+        </form><br/>
+    {{/user}}
+</header>
+
+{{#sandwiches}}
+    <div class="sandwich-block">
+
+        {{^display}}
+        <form action="/accept-changes" method="post">
+            Change the name of this sandwich:&nbsp;<input type="text" placeholder="{{name}}" name="sandwichName" /><br/>
+            <input type="hidden" value="{{id}}" name="id"/>
+            <button type="submit">Change</button>
+        </form>
+        {{/display}}
+
+        {{#display}}
+        {{sandwichName}}<br/>
+        <form action="/edit-sandwich" method="post">
+            <input type="hidden" value="{{id}}" name="id">
+            {{#mine}}
+                <button type="submit">Edit</button>
+            {{/mine}}
+        </form>
+        <form action="/delete-sandwich" method="post">
+            <input type="hidden" value="{{id}}" name="id"/>
+            {{#mine}}
+                <button type="submit">Delete</button>
+            {{/mine}}
+        </form>
+        {{/display}}
+    </div>
+{{/sandwiches}}
+
+</body>
+</html>
